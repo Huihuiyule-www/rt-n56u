@@ -1,5 +1,7 @@
-SRC_NAME=curl-7.65.1
-SRC_URL=https://github.com/curl/curl/releases/download/curl-7_65_1/curl-7.65.1.tar.xz
+SRC_NAME=curl-7.72.0
+SRC_URL=https://github.com/curl/curl/releases/download/curl-7_65_3/curl-7.72.0.tar.xz
+
+LDFLAGS += -Wl,-rpath-link=$(STAGEDIR)/lib
 
 all: download_test extract_test config_test
 	$(MAKE) -j$(HOST_NCPU) -C $(SRC_NAME)
@@ -64,7 +66,7 @@ configure:
 
 clean:
 	if [ -f $(SRC_NAME)/Makefile ] ; then \
-		$(MAKE) -C $(SRC_NAME) distclean ; \
+		$(MAKE) -C $(SRC_NAME) clean ; \
 	fi ; \
 	rm -f config_done
 

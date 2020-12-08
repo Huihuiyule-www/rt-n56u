@@ -78,6 +78,10 @@ ifeq ($(CONFIG_FIRMWARE_INCLUDE_ARIA),y)
 ARIA2_ENABLED=y
 endif
 
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_REDSOCKS),y)
+REDSOCKS_ENABLED=y
+endif
+
 ifneq ($(filter y,$(CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CMD) $(CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT) $(CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER)),)
 SOFTETHERVPN_ENABLE=y
 endif
@@ -142,8 +146,10 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_TCPDUMP)		+= tcpdump
 dir_$(CONFIG_FIRMWARE_INCLUDE_MTR)		+= mtr
 dir_$(CONFIG_FIRMWARE_INCLUDE_SOCAT)	+= socat
 dir_$(CONFIG_FIRMWARE_INCLUDE_SRELAY)	+= srelay
+dir_$(CONFIG_FIRMWARE_INCLUDE_TUNSAFE) += tunsafe
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_SMBD36),y)
 dir_$(SAMBA_ENABLED)				+= samba36
+dir_y							+= wsdd2
 else
 dir_$(SAMBA_ENABLED)				+= samba3
 endif
@@ -162,6 +168,10 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_IPERF3)			+= iperf3
 dir_$(CONFIG_FIRMWARE_INCLUDE_MINIEAP)			+= minieap
 dir_$(CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT)		+= njit-client
 dir_$(CONFIG_FIRMWARE_INCLUDE_MENTOHUST)		+= mentohust
+dir_$(CONFIG_FIRMWARE_INCLUDE_xTUN) 			+= xTun
+dir_$(CONFIG_FIRMWARE_INCLUDE_WING) 			+= wing
+dir_$(CONFIG_FIRMWARE_INCLUDE_WING) 			+= ipt2socks
+dir_$(CONFIG_FIRMWARE_INCLUDE_REDSOCKS)			+= redsocks
 
 ifdef CONFIG_BLK_DEV_SD
 dir_$(CONFIG_FIRMWARE_INCLUDE_HDPARM)		+= hdparm
@@ -178,7 +188,10 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_DUMP1090)	+= dump1090
 endif
 
 ifeq ($(STORAGE_ENABLED),y)
-dir_y						+= nfsd
+dir_$(CONFIG_FIRMWARE_INCLUDE_NFSD)		+= nfs-utils
+ifneq (,$(filter y,$(CONFIG_FIRMWARE_INCLUDE_NFSD) $(CONFIG_FIRMWARE_INCLUDE_NFSC)))
+dir_y						+= rpcbind
+endif
 dir_y						+= optware
 dir_y						+= util-linux
 dir_$(FS_EXT_ENABLED)				+= e2fsprogs
